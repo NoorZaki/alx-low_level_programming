@@ -1,32 +1,39 @@
 #include <stdio.h>
-#include <math.h>
+
 /**
- * main - finds and prints the largest prime factor of the number 612852475143
- * followed by a new line
- * Return: Always 0 (Success)
+ * main - entry point
+ *
+ * Description: Write a program that prints
+ *  all possible different combinations of two digits.
+ *
+ *  Return: 0 (Success)
  */
+
 int main(void)
 {
-long int n;
-long int max;
-long int i;
-n = 612852475143;
-max = -1;
-while (n % 2 == 0)
+int digit1 = 0, digit2;
+
+while (digit1 <= 9)
 {
-max = 2;
-n /= 2;
-}
-for (i = 3; i <= sqrt(n); i = i + 2)
+digit2 = 0;
+while (digit2 <= 9)
 {
-while (n % i == 0)
+if (digit1 != digit2 && digit1 < digit2)
 {
-max = i;
-n = n / i;
+putchar(digit1 + 48);
+putchar(digit2 + 48);
+
+if (digit1 + digit2 != 17)
+{
+putchar(',');
+putchar(' ');
 }
 }
-if (n > 2)
-max = n;
-printf("%1d\n", max);
+digit2++;
+}
+digit1++;
+}
+putchar('\n');
+
 return (0);
 }
