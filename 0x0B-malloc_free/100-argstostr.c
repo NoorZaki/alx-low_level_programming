@@ -8,34 +8,31 @@
   *Return: NULL if ac == 0 or av == null, Pointer to new string.
   *NULL on fail.
   */
-char **strtow(char *str)
+char *argstostr(int ac, char **av)
 {
-if (str == NULL || str[0] == '\0')
-{
-return NULL;
-}
-int word_count = 1;
-char *word;
-for (int i = 0; str[i] != '\0'; i++)
-{
-if (str[i] == ' ')
-{
-word_count++;
-}
-}
-char **words = malloc(sizeof(char *) * (word_count + 1));
-if (words == NULL)
+if (ac == 0 || av == NULL)
 {
 return NULL;
 }
-int j = 0;
-word = strtok(str, " ");
-while (word != NULL)
+int total_len = 0;
+for (int i = 0; i < ac; i++)
 {
-words[j++] = word;
-word = strtok(NULL, " ");
+total_len += strlen(av[i]) + 1; // +1 for the '\n'
 }
-words[j] = NULL;
-return words;
+char *new_str = malloc(total_len * sizeof(char));
+if (new_str == NULL)
+{
+return NULL;
 }
+int i = 0;
+for (int j = 0; j < ac; j++)
+{
+strcat(new_str + i, av[j]);
+i += strlen(av[j]);
+strcat(new_str + i, "\n");
+i++;
+}
+return new_str;
+}
+
 
