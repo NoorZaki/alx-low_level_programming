@@ -1,38 +1,36 @@
-#include "main.h"
 #include <stdlib.h>
-#include <string.h>
+#include "main.h"
+
 /**
-  *argstostr - concatenates all arguments of the program.
-  *@ac: argument count.
-  *@av: pointer to array of size ac.
-  *Return: NULL if ac == 0 or av == null, Pointer to new string.
-  *NULL on fail.
-  */
+ * argstostr - converts array of strings to one string with newline separators
+ * @ac: number of strings
+ * @av: array of strings
+ * Return: char * to concatenated string
+ */
+
 char *argstostr(int ac, char **av)
 {
-if (ac == 0 || av == NULL)
+int size = 0, i;
+char *ptr, *ret, *retptr;
+if (ac == 0 || !av)
+return (NULL);
+for (i = 0; i < ac; i++)
 {
-return NULL;
+ptr = av[i];
+while (*ptr++)
+size++;
 }
-int total_len = 0;
-for (int i = 0; i < ac; i++)
+ret = malloc(size + 1 + ac);
+if (!ret)
+return (NULL);
+retptr = ret;
+for (i = 0; i < ac; i++)
 {
-total_len += strlen(av[i]) + 1; // +1 for the '\n'
-}
-char *new_str = malloc(total_len * sizeof(char));
-if (new_str == NULL)
+for (ptr = av[i]; *ptr; ptr++, retptr++)
 {
-return NULL;
+*retptr = *ptr;
 }
-int i = 0;
-for (int j = 0; j < ac; j++)
-{
-strcat(new_str + i, av[j]);
-i += strlen(av[j]);
-strcat(new_str + i, "\n");
-i++;
+*retptr++ = '\n';
 }
-return new_str;
+return (ret);
 }
-
-
