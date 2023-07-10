@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+#include <string.h>
 /**
   *argstostr - concatenates all arguments of the program.
   *@ac: argument count.
@@ -7,43 +8,34 @@
   *Return: NULL if ac == 0 or av == null, Pointer to new string.
   *NULL on fail.
   */
-char *argstostr(int ac, char **av)
+char **strtow(char *str)
 {
-int i, j, k, size;
-char *arg;
-size = 0;
-k = 0;
-if (ac == 0 || av == NULL)
-return (NULL);
-i = 0;
-while (i < ac)
+if (str == NULL || str[0] == '\0')
 {
-j = 0;
-while (av[i][j])
+return NULL;
+}
+int word_count = 1;
+char *word;
+for (int i = 0; str[i] != '\0'; i++)
 {
-size++;
-j++;
-}
-size++;
-i++;
-}
-arg = malloc((sizeof(char) * size)+ 1);
-if (arg == NULL)
-return (NULL);
-i = 0;
-while (i < ac)
+if (str[i] == ' ')
 {
-j = 0;
-while (av[i][j])
+word_count++;
+}
+}
+char **words = malloc(sizeof(char *) * (word_count + 1));
+if (words == NULL)
 {
-arg[k] = av[i][j];
-j++;
-k++;
+return NULL;
 }
-arg[k] = '\n';
-k++;
-i++;
+int j = 0;
+word = strtok(str, " ");
+while (word != NULL)
+{
+words[j++] = word;
+word = strtok(NULL, " ");
 }
-arg[k] = '\0';
-return (arg);
+words[j] = NULL;
+return words;
 }
+
