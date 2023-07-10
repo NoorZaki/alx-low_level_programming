@@ -7,30 +7,43 @@
  * @av: array of strings
  * Return: char * to concatenated string
  */
-
 char *argstostr(int ac, char **av)
 {
-int size = 0, i;
-char *ptr, *ret, *retptr;
-if (ac == 0 || !av)
+int i, j, k, size;
+char *arg;
+size = 0;
+k = 0;
+if (ac == 0 || av == NULL)
 return (NULL);
-for (i = 0; i < ac; i++)
+i = 0;
+while (i < ac)
 {
-ptr = av[i];
-while (*ptr++)
+j = 0;
+while (av[i][j])
+{
 size++;
+j++;
 }
-ret = malloc(size + 1 + ac);
-if (!ret)
+size++;
+i++;
+}
+arg = malloc(sizeof(char) * size + 1);
+if (arg == NULL)
 return (NULL);
-retptr = ret;
-for (i = 0; i < ac; i++)
+i = 0;
+while (i < ac)
 {
-for (ptr = av[i]; *ptr; ptr++, retptr++)
+j = 0;
+while (av[i][j])
 {
-*retptr = *ptr;
+arg[k] = av[i][j];
+j++;
+k++;
 }
-*retptr++ = '\n';
+arg[k] = '\n';
+k++;
+i++;
 }
-return (ret);
+arg[k] = '\0';
+return (arg);
 }
